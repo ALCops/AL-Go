@@ -20,7 +20,7 @@
 #>
 Param(
     [Parameter(Mandatory = $true)]
-    [string] $packageName,
+    [string] $packageName = "ALCops.Analyzers",
 
     [Parameter(Mandatory = $false)]
     [string] $packageVersion = "",
@@ -111,7 +111,7 @@ Invoke-WebRequest -Uri $nupkgUrl -OutFile $nupkgPath -UseBasicParsing
 $extractPath = Join-Path $tempDir "extracted"
 Write-Host "Extracting NuGet package..."
 Add-Type -AssemblyName System.IO.Compression.FileSystem
-[System.IO.Compression.ZipFile]::ExtractToDirectory($nupkgPath, $extractPath, $true)
+[System.IO.Compression.ZipFile]::ExtractToDirectory($nupkgPath, $extractPath)
 
 $libFolder = Join-Path $extractPath "lib/$targetFramework"
 if (-not (Test-Path $libFolder)) {
