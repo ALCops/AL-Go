@@ -19,7 +19,7 @@
     Destination folder for the extracted DLLs. Defaults to $ENV:GITHUB_WORKSPACE/.alcops/<targetFramework>.
 #>
 Param(
-    [Parameter(Mandatory = $true)]
+    [Parameter(Mandatory = $false)]
     [string] $packageName = "ALCops.Analyzers",
 
     [Parameter(Mandatory = $false)]
