@@ -20,16 +20,16 @@
 #>
 Param(
     [Parameter(Mandatory = $false)]
-    [string] $packageName = "ALCops.Analyzers",
+    [string] $packageName,
 
     [Parameter(Mandatory = $false)]
-    [string] $packageVersion = "",
+    [string] $packageVersion,
 
     [Parameter(Mandatory = $false)]
-    [string] $targetFramework = "net8.0",
+    [string] $targetFramework,
 
     [Parameter(Mandatory = $false)]
-    [string] $copsFolder = ""
+    [string] $copsFolder
 )
 
 $ErrorActionPreference = "Stop"
@@ -38,6 +38,14 @@ $ScriptVersion = "1.0.0"
 Write-Host "Install-ALCops v$ScriptVersion"
 
 # ── Resolve defaults ─────────────────────────────────────────────────
+if (-not $packageName) {
+    $packageName = "ALCops.Analyzers"
+}
+
+if (-not $targetFramework) {
+    $targetFramework = "net8.0"
+}
+
 if (-not $copsFolder) {
     $copsFolder = Join-Path $ENV:GITHUB_WORKSPACE ".alcops/$targetFramework"
 }
