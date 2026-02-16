@@ -47,7 +47,7 @@ if (-not $targetFramework) {
 }
 
 if (-not $copsFolder) {
-    $copsFolder = Join-Path $ENV:GITHUB_WORKSPACE ".alcops/$targetFramework"
+    $copsFolder = Join-Path $ENV:GITHUB_WORKSPACE ".alcops"
 }
 
 # ── Resolve NuGet package version ────────────────────────────────────
