@@ -39,7 +39,7 @@ if ([string]::IsNullOrWhiteSpace($githubActionsValue) -or ($githubActionsValue.T
 }
 
 $ErrorActionPreference = "Stop"
-$ScriptVersion = "1.0.0"
+$ScriptVersion = "1.0.1"
 
 Write-Host "Install-ALCops v$ScriptVersion"
 
