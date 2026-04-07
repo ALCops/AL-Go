@@ -32,6 +32,12 @@ Param(
     [string] $copsFolder
 )
 
+# Exit immediately when not running in GitHub Actions.
+$githubActionsValue = $ENV:GITHUB_ACTIONS
+if ([string]::IsNullOrWhiteSpace($githubActionsValue) -or ($githubActionsValue.Trim().ToLowerInvariant() -eq "false")) {
+    return
+}
+
 $ErrorActionPreference = "Stop"
 $ScriptVersion = "1.0.0"
 
