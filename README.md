@@ -29,7 +29,8 @@ Invoke-WebRequest -Uri $scriptUrl -OutFile $scriptPath -UseBasicParsing
 | Parameter | Default | Description |
 |---|---|---|
 | `$packageVersion` | `""` | Version channel: `""` (latest stable), `"alpha"`, `"beta"`, or an exact version like `"1.2.3"` |
-| `$targetFramework` | `net8.0` | Leave blank for current AL Language versions. Set to `netstandard2.1` for AL Language versions below v16.0. |
+| `$targetFramework` | `net8.0` | Target framework moniker. Mutually exclusive with `$artifactUrl`. |
+| `$artifactUrl` | | BC artifact URL to auto-detect the correct TFM. Mutually exclusive with `$targetFramework`. Requires Node.js on the runner. |
 
 ## How it works
 

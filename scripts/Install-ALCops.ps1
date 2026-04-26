@@ -14,6 +14,13 @@
 
 .PARAMETER targetFramework
     Target framework folder to extract from the NuGet lib folder (e.g. "net8.0").
+    Mutually exclusive with artifactUrl.
+
+.PARAMETER artifactUrl
+    BC artifact URL to auto-detect the target framework from (e.g.
+    "https://bcartifacts.azureedge.net/sandbox/26.0.12345.0/us").
+    Uses @alcops/core via npx to detect the correct TFM.
+    Mutually exclusive with targetFramework.
 
 .PARAMETER copsFolder
     Destination folder for the extracted DLLs. Defaults to $ENV:GITHUB_WORKSPACE/.alcops/<targetFramework>.
@@ -29,6 +36,9 @@ Param(
     [string] $targetFramework,
 
     [Parameter(Mandatory = $false)]
+    [string] $artifactUrl,
+
+    [Parameter(Mandatory = $false)]
     [string] $copsFolder
 )
 
@@ -39,13 +49,45 @@ if ([string]::IsNullOrWhiteSpace($githubActionsValue) -or ($githubActionsValue.T
 }
 
 $ErrorActionPreference = "Stop"
-$ScriptVersion = "1.0.1"
+$ScriptVersion = "1.1.0"
 
 Write-Host "Install-ALCops v$ScriptVersion"
+
+# ── Validate mutually exclusive parameters ───────────────────────────
+if ($targetFramework -and $artifactUrl) {
+    throw "Parameters 'targetFramework' and 'artifactUrl' are mutually exclusive. Provide one or the other, not both."
+}
 
 # ── Resolve defaults ─────────────────────────────────────────────────
 if (-not $packageName) {
     $packageName = "ALCops.Analyzers"
+}
+
+# ── Detect TFM from artifact URL ────────────────────────────────────
+if ($artifactUrl) {
+    Write-Host "Detecting target framework from BC artifact URL..."
+    Write-Host "  Artifact URL: $artifactUrl"
+
+    $npxStderr = $null
+    $jsonOutput = npx --yes @alcops/core detect-tfm bc-artifact $artifactUrl 2>&1 | ForEach-Object {
+        if ($_ -is [System.Management.Automation.ErrorRecord]) {
+            $npxStderr += $_.ToString() + "`n"
+        } else {
+            $_
+        }
+    }
+    if ($LASTEXITCODE -ne 0) {
+        throw "TFM detection failed (exit code $LASTEXITCODE): $npxStderr $jsonOutput"
+    }
+
+    $detection = $jsonOutput | ConvertFrom-Json
+    $targetFramework = $detection.tfm
+
+    if (-not $targetFramework) {
+        throw "TFM detection returned no 'tfm' value. Raw output: $jsonOutput"
+    }
+
+    Write-Host "  Detected TFM: $targetFramework (source: $($detection.source), details: $($detection.details))"
 }
 
 if (-not $targetFramework) {
