@@ -1,5 +1,11 @@
 # ALCops for AL-Go
 
+> **⚠️ Deprecated**: This script-based approach is deprecated. Please migrate to the CLI-based approach using `@alcops/core`.
+>
+> 👉 **[Migration guide](https://alcops.dev/docs/getting-started/cicd/github/#2-create-the-initialization-script)**
+
+---
+
 Run [ALCops](https://alcops.dev/) custom code analyzers in your [AL-Go](https://github.com/microsoft/AL-Go) pipelines, with a single script hook.
 
 ## What this does
@@ -7,6 +13,8 @@ Run [ALCops](https://alcops.dev/) custom code analyzers in your [AL-Go](https://
 AL-Go supports custom pipeline hooks that run at specific stages of a build. This repo provides an installer script that plugs into AL-Go though the **PipelineInitialize.ps1** hook to automatically download and configure ALCops analyzers before compilation starts.
 
 ## Quick start
+
+> **⚠️ Deprecated**: Use the [CLI-based initialization script](https://alcops.dev/docs/getting-started/cicd/github/#2-create-the-initialization-script) instead.
 
 1. Create a file called `PipelineInitialize.ps1` in your `.AL-Go` folder.
 2. Add the following content:
