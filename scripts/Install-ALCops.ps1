@@ -39,9 +39,13 @@ if ([string]::IsNullOrWhiteSpace($githubActionsValue) -or ($githubActionsValue.T
 }
 
 $ErrorActionPreference = "Stop"
-$ScriptVersion = "1.0.1"
+$ScriptVersion = "1.0.2"
 
 Write-Host "Install-ALCops v$ScriptVersion"
+
+Write-Warning "Install-ALCops.ps1 is deprecated and will be removed in a future release."
+Write-Warning "Please migrate to the CLI-based approach using @alcops/core."
+Write-Warning "Migration guide: https://alcops.dev/docs/getting-started/cicd/github/#2-create-the-initialization-script"
 
 # ── Resolve defaults ─────────────────────────────────────────────────
 if (-not $packageName) {
