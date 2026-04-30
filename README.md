@@ -1,4 +1,4 @@
-# ALCops for AL-Go
+# [DEPRECATED] ALCops for AL-Go
 
 > **⚠️ Deprecated**: This script-based approach is deprecated. Please migrate to the CLI-based approach using `@alcops/core`.
 >
